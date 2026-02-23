@@ -7,7 +7,7 @@ import { Dog, Lock, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 interface Props {
-  onSuccess: () => void;
+  onSuccess: (pin: string) => void;
 }
 
 export function PinGate({ onSuccess }: Props) {
@@ -27,8 +27,7 @@ export function PinGate({ onSuccess }: Props) {
       if (error) throw error;
 
       if (data?.valid) {
-        sessionStorage.setItem("admin_auth", "true");
-        onSuccess();
+        onSuccess(pin.trim());
       } else {
         toast({ title: "PIN incorrecto", variant: "destructive" });
         setPin("");

@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 const Admin = () => {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem("admin_auth") === "true");
+  const [adminPin, setAdminPin] = useState<string | null>(() => sessionStorage.getItem("admin_pin"));
   const [editing, setEditing] = useState<Product | null>(null);
   const [creating, setCreating] = useState(false);
   const [deleting, setDeleting] = useState<Product | null>(null);
@@ -36,9 +36,11 @@ const Admin = () => {
   }, [queryClient]);
 
   const handleDelete = async () => {
-    if (!deleting) return;
-    const { error } = await supabase.from("products").delete().eq("id", deleting.id);
-    if (error) {
+    if (!deleting || !adminPin) return;
+    const { data, error } = await supabase.functions.invoke("admin-products", {
+      body: { pin: adminPin, action: "delete", product: { id: deleting.id } },
+    });
+    if (error || !data?.success) {
       toast({ title: "Error al eliminar", variant: "destructive" });
     } else {
       toast({ title: "Producto eliminado ✓" });
@@ -48,11 +50,16 @@ const Admin = () => {
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem("admin_auth");
-    setAuthed(false);
+    sessionStorage.removeItem("admin_pin");
+    setAdminPin(null);
   };
 
-  if (!authed) return <PinGate onSuccess={() => setAuthed(true)} />;
+  const handlePinSuccess = (pin: string) => {
+    sessionStorage.setItem("admin_pin", pin);
+    setAdminPin(pin);
+  };
+
+  if (!adminPin) return <PinGate onSuccess={handlePinSuccess} />;
 
   const showForm = creating || editing;
 
@@ -84,6 +91,7 @@ const Admin = () => {
         {showForm ? (
           <ProductForm
             product={editing}
+            adminPin={adminPin}
             onSaved={refresh}
             onCancel={() => { setEditing(null); setCreating(false); }}
           />
