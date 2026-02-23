@@ -1,104 +1,99 @@
-import { useState, useMemo } from "react";
-import { useProducts } from "@/hooks/useProducts";
-import { CategoryFilter } from "@/components/catalog/CategoryFilter";
-import { SearchBar } from "@/components/catalog/SearchBar";
-import { ProductCard } from "@/components/catalog/ProductCard";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Dog, PackageOpen } from "lucide-react";
-import type { Category } from "@/types/product";
+import { Link } from "react-router-dom";
 
 const Index = () => {
-  const { data: products, isLoading, error } = useProducts();
-  const [category, setCategory] = useState<Category | null>(null);
-  const [search, setSearch] = useState("");
-
-  const filtered = useMemo(() => {
-    if (!products) return [];
-    return products.filter((p) => {
-      if (category && p.categoria !== category) return false;
-      if (search) {
-        const q = search.toLowerCase();
-        return (
-          p.nombre.toLowerCase().includes(q) ||
-          p.marca?.toLowerCase().includes(q) ||
-          p.descripcion?.toLowerCase().includes(q)
-        );
-      }
-      return true;
-    });
-  }, [products, category, search]);
-
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center gap-3">
-          <Dog className="w-8 h-8 text-primary" />
-          <h1 className="text-2xl font-bold tracking-tight">
-            La Perri<span className="text-primary">cueva</span>
-          </h1>
+    <>
+      {/* 1. HERO SECTION */}
+      <div className="hero">
+        <img
+          src="/img/titulo.png"
+          alt="LA PERRICUEVA"
+          className="title-image"
+        />
+        <img
+          src="/img/logo.png"
+          alt="Logo de LA PERRICUEVA"
+          className="hero-logo"
+        />
+        <div className="impact-text">
+          Tu mascota es un héroe. Nosotros le damos su armadura.
         </div>
-      </header>
+        <div className="animals-runner">
+          <div className="animal">🐶</div>
+          <div className="animal">🐱</div>
+          <div className="animal">🦜</div>
+          <div className="animal">🐰</div>
+          <div className="animal">🐶</div>
+          <div className="animal">🐱</div>
+          <div className="animal">🦜</div>
+          <div className="animal">🐰</div>
+        </div>
+      </div>
 
-      <main className="max-w-7xl mx-auto px-4 py-8 space-y-8">
-        {/* Hero */}
-        <section className="text-center space-y-3">
-          <h2 className="text-3xl md:text-4xl font-bold">
-            Todo para tu <span className="text-primary">mejor amigo</span> 🐾
-          </h2>
-          <p className="text-muted-foreground max-w-lg mx-auto">
-            Alimentos, accesorios y más para el bienestar de tu mascota.
-          </p>
-        </section>
-
-        {/* Filters */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <CategoryFilter selected={category} onSelect={setCategory} />
-          <div className="sm:ml-auto w-full sm:w-auto">
-            <SearchBar value={search} onChange={setSearch} />
-          </div>
+      {/* 2. SECCIÓN DE PROMOS */}
+      <section className="promos-section">
+        <div className="promos-header">
+          <h2>🔥 OFERTAS DEL CUARTEL 🔥</h2>
+          <p>Equipamiento legendario a precios de cadete</p>
         </div>
 
-        {/* Grid */}
-        {isLoading ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="space-y-3">
-                <Skeleton className="aspect-square rounded-xl" />
-                <Skeleton className="h-4 w-3/4" />
-                <Skeleton className="h-4 w-1/2" />
-              </div>
-            ))}
+        <div className="promo-box">
+          <img
+            src="https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?q=80&w=1000&auto=format&fit=crop"
+            alt="Promo Especial"
+          />
+          <div className="promo-overlay">
+            <h3>20% OFF en Alimentos Premium</h3>
+            <p>Solo por tiempo limitado</p>
+            <Link to="/alimentos" className="promo-btn">
+              VER OFERTA
+            </Link>
           </div>
-        ) : error ? (
-          <div className="text-center py-20 text-destructive">
-            Error al cargar productos. Intentá de nuevo más tarde.
-          </div>
-        ) : filtered.length === 0 ? (
-          <div className="text-center py-20 space-y-4">
-            <PackageOpen className="w-16 h-16 mx-auto text-muted-foreground/40" />
-            <p className="text-muted-foreground">
-              {products?.length === 0
-                ? "Aún no hay productos cargados."
-                : "No se encontraron productos con esos filtros."}
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {filtered.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-        )}
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-border mt-16">
-        <div className="max-w-7xl mx-auto px-4 py-6 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} La Perricueva — Hecho con 🐾
         </div>
-      </footer>
-    </div>
+      </section>
+
+      {/* 3. ARSENAL (Categorías) */}
+      <section className="arsenal-section">
+        <h2 className="arsenal-title">El arsenal del héroe</h2>
+        <div className="arsenal-grid">
+          <Link to="/alimentos" className="arsenal-item">
+            <img
+              src="https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?auto=format&fit=crop&q=80&w=400"
+              alt="Energía de combate"
+            />
+            <h3>Alimentos</h3>
+            <p>Proteínas, vitaminas y sabor para misiones diarias.</p>
+          </Link>
+
+          <Link to="/higiene" className="arsenal-item">
+            <img
+              src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&q=80&w=400"
+              alt="Rituales de poder"
+            />
+            <h3>Higiene</h3>
+            <p>Shampoos, perfumes y tratamientos para mantener su fuerza.</p>
+          </Link>
+
+          <Link to="/accesorios" className="arsenal-item">
+            <img
+              src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&q=80&w=400"
+              alt="Armadura y herramientas"
+            />
+            <h3>Accesorios</h3>
+            <p>Collares resistentes, camas cómodas, juguetes indestructibles.</p>
+          </Link>
+
+          <Link to="/venenos" className="arsenal-item">
+            <img
+              src="https://placehold.co/400x300/1a1a2e/d4af37?text=Venenos+y+Control"
+              alt="Defensa contra villanos"
+            />
+            <h3>Defensa contra villanos</h3>
+            <p>Garrapatas, roedores y hormigas no tienen chance.</p>
+          </Link>
+        </div>
+      </section>
+    </>
   );
 };
 
