@@ -13,13 +13,14 @@ import { toast } from "@/hooks/use-toast";
 
 interface Props {
   product?: Product | null;
+  adminPin: string;
   onSaved: () => void;
   onCancel: () => void;
 }
 
 const emptyVariation = (): Variation => ({ key: "", value: "", precio: 0, stock: 0 });
 
-export function ProductForm({ product, onSaved, onCancel }: Props) {
+export function ProductForm({ product, adminPin, onSaved, onCancel }: Props) {
   const isEditing = !!product;
 
   const [nombre, setNombre] = useState(product?.nombre ?? "");
@@ -87,16 +88,16 @@ export function ProductForm({ product, onSaved, onCancel }: Props) {
       variaciones: JSON.parse(JSON.stringify(variaciones.filter((v) => v.value.trim()))),
     };
 
-    let error;
-    if (isEditing) {
-      ({ error } = await supabase.from("products").update(payload).eq("id", product!.id));
-    } else {
-      ({ error } = await supabase.from("products").insert(payload));
-    }
+    const action = isEditing ? "update" : "insert";
+    const productData = isEditing ? { ...payload, id: product!.id } : payload;
+
+    const { data, error } = await supabase.functions.invoke("admin-products", {
+      body: { pin: adminPin, action, product: productData },
+    });
 
     setSaving(false);
-    if (error) {
-      toast({ title: "Error al guardar", description: error.message, variant: "destructive" });
+    if (error || !data?.success) {
+      toast({ title: "Error al guardar", description: "Verificá el PIN o intentá de nuevo", variant: "destructive" });
     } else {
       toast({ title: isEditing ? "Producto actualizado ✓" : "Producto creado ✓" });
       onSaved();
