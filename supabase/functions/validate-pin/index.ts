@@ -2,8 +2,8 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 // Simple in-memory rate limiter (per instance)
@@ -25,6 +25,13 @@ function isRateLimited(ip: string): boolean {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  if (req.method !== "POST") {
+    return new Response(
+      JSON.stringify({ error: "Método no permitido" }),
+      { status: 405, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
   }
 
   try {
