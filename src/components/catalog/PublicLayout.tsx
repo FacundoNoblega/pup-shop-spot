@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import { Header } from "./Header";
 import "@/styles/catalog.css";
 
 const WHATSAPP_NUMBER = "5493834701332";
@@ -13,6 +14,9 @@ export function PublicLayout() {
         <div className="meteor"></div>
         <div className="meteor"></div>
       </div>
+
+      {/* Header */}
+      <Header />
 
       <div className="main-content">
         <Outlet />

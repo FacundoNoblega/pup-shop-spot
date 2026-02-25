@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import { GameCard } from "@/components/home/GameCard";
+import { GroomingWizard } from "@/components/home/GroomingWizard";
+import "@/styles/home-layout.css";
 
 const Index = () => {
   return (
@@ -52,45 +55,60 @@ const Index = () => {
         </div>
       </section>
 
-      {/* 3. ARSENAL (Categorías) */}
-      <section className="arsenal-section">
-        <h2 className="arsenal-title">El arsenal del héroe</h2>
-        <div className="arsenal-grid">
-          <Link to="/alimentos" className="arsenal-item">
-            <img
-              src="https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?auto=format&fit=crop&q=80&w=400"
-              alt="Energía de combate"
-            />
-            <h3>Alimentos</h3>
-            <p>Proteínas, vitaminas y sabor para misiones diarias.</p>
-          </Link>
+      {/* 3. MAIN CONTENT SECTION - Three columns layout */}
+      <section className="main-content-section">
+        {/* LEFT COLUMN - Game Card */}
+        <div className="content-column left-column">
+          <GameCard />
+        </div>
 
-          <Link to="/higiene" className="arsenal-item">
-            <img
-              src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&q=80&w=400"
-              alt="Rituales de poder"
-            />
-            <h3>Higiene</h3>
-            <p>Shampoos, perfumes y tratamientos para mantener su fuerza.</p>
-          </Link>
+        {/* CENTER COLUMN - Arsenal (Categorías) */}
+        <div className="content-column center-column">
+          <div className="arsenal-section">
+            <h2 className="arsenal-title">El arsenal del héroe</h2>
+            <div className="arsenal-grid">
+              <Link to="/alimentos" className="arsenal-item">
+                <img
+                  src="https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?auto=format&fit=crop&q=80&w=400"
+                  alt="Energía de combate"
+                />
+                <h3>Alimentos</h3>
+                <p>Proteínas, vitaminas y sabor para misiones diarias.</p>
+              </Link>
 
-          <Link to="/accesorios" className="arsenal-item">
-            <img
-              src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&q=80&w=400"
-              alt="Armadura y herramientas"
-            />
-            <h3>Accesorios</h3>
-            <p>Collares resistentes, camas cómodas, juguetes indestructibles.</p>
-          </Link>
+              <Link to="/higiene" className="arsenal-item">
+                <img
+                  src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&q=80&w=400"
+                  alt="Rituales de poder"
+                />
+                <h3>Higiene</h3>
+                <p>Shampoos, perfumes y tratamientos para mantener su fuerza.</p>
+              </Link>
 
-          <Link to="/venenos" className="arsenal-item">
-            <img
-              src="https://placehold.co/400x300/1a1a2e/d4af37?text=Venenos+y+Control"
-              alt="Defensa contra villanos"
-            />
-            <h3>Defensa contra villanos</h3>
-            <p>Garrapatas, roedores y hormigas no tienen chance.</p>
-          </Link>
+              <Link to="/accesorios" className="arsenal-item">
+                <img
+                  src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&q=80&w=400"
+                  alt="Armadura y herramientas"
+                />
+                <h3>Accesorios</h3>
+                <p>Collares resistentes, camas cómodas, juguetes indestructibles.</p>
+              </Link>
+
+              <Link to="/venenos" className="arsenal-item">
+                <img
+                  src="https://placehold.co/400x300/1a1a2e/d4af37?text=Venenos+y+Control"
+                  alt="Defensa contra villanos"
+                />
+                <h3>Defensa contra villanos</h3>
+                <p>Garrapatas, roedores y hormigas no tienen chance.</p>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN - Grooming Wizard */}
+        <div className="content-column right-column">
+          <GroomingWizard />
         </div>
       </section>
     </>

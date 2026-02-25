@@ -1,0 +1,251 @@
+/* ========================================
+   HOME LAYOUT STYLES
+   Three-column layout with Game, Arsenal, Grooming
+   ======================================== */
+
+.main-content-section {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.content-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.left-column {
+  /* Game Card - Left */
+}
+
+.center-column {
+  /* Arsenal - Center */
+  min-width: 0;
+}
+
+.right-column {
+  /* Grooming Wizard - Right */
+}
+
+/* ===== ARSENAL SECTION ===== */
+.arsenal-section {
+  width: 100%;
+}
+
+.arsenal-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  color: #d4af37;
+  margin: 0 0 2rem 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.arsenal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.arsenal-item {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: white;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: rgba(0, 12, 42, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+.arsenal-item:hover {
+  transform: translateY(-8px);
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+.arsenal-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.arsenal-item:hover img {
+  transform: scale(1.1);
+}
+
+.arsenal-item h3 {
+  font-size: 1.25rem;
+  margin: 1rem;
+  margin-bottom: 0.5rem;
+  color: #d4af37;
+}
+
+.arsenal-item p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 1rem 1rem 1rem;
+  flex: 1;
+}
+
+/* ===== RESPONSIVE - TABLET ===== */
+@media (max-width: 1200px) {
+  .main-content-section {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .arsenal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .arsenal-title {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .main-content-section {
+    grid-template-columns: 1fr;
+  }
+
+  .arsenal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .arsenal-item h3 {
+    font-size: 1.1rem;
+  }
+
+  .arsenal-item p {
+    font-size: 0.85rem;
+  }
+}
+
+/* ===== RESPONSIVE - MOBILE ===== */
+@media (max-width: 768px) {
+  .main-content-section {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+
+  .arsenal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .arsenal-section {
+    order: 2;
+  }
+
+  .left-column {
+    order: 1;
+    min-height: 250px;
+  }
+
+  .right-column {
+    order: 3;
+  }
+
+  .arsenal-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .arsenal-item img {
+    height: 180px;
+  }
+
+  .arsenal-item h3 {
+    font-size: 1rem;
+    margin: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .arsenal-item p {
+    font-size: 0.8rem;
+    margin: 0 0.75rem 0.75rem 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content-section {
+    gap: 1rem;
+    padding: 0.75rem;
+  }
+
+  .arsenal-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .arsenal-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .arsenal-item {
+    border-radius: 10px;
+  }
+
+  .arsenal-item img {
+    height: 150px;
+  }
+
+  .arsenal-item h3 {
+    font-size: 0.95rem;
+    margin: 0.5rem;
+  }
+
+  .arsenal-item p {
+    font-size: 0.75rem;
+    margin: 0 0.5rem 0.5rem 0.5rem;
+  }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.content-column {
+  animation: slideUp 0.5s ease;
+}
+
+.left-column {
+  animation-delay: 0.1s;
+}
+
+.center-column {
+  animation-delay: 0.2s;
+}
+
+.right-column {
+  animation-delay: 0.3s;
+}
+
+/* ===== STICKY POSITIONING ===== */
+@media (min-width: 1201px) {
+  .left-column,
+  .right-column {
+    position: sticky;
+    top: 100px;
+  }
+}

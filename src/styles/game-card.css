@@ -1,0 +1,389 @@
+/* ========================================
+   COSMIC GAME CARD STYLES
+   Interactive Gamepad Card
+   ======================================== */
+
+.game-card-container {
+  position: relative;
+  perspective: 1200px;
+}
+
+.game-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.game-card:hover {
+  transform: scale(1.05) translateZ(20px);
+}
+
+.game-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.08) 0%,
+    rgba(79, 172, 254, 0.08) 100%
+  );
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s ease;
+}
+
+.game-card:hover .game-card-inner {
+  border-color: rgba(212, 175, 55, 0.6);
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.15) 0%,
+    rgba(79, 172, 254, 0.15) 100%
+  );
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.3), inset 0 0 20px rgba(212, 175, 55, 0.1);
+}
+
+/* ===== GLOW EFFECT ===== */
+.game-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.2), transparent 50%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.game-card:hover .game-glow {
+  opacity: 1;
+  animation: cosmic-glow-pulse 1.5s ease-in-out infinite;
+}
+
+/* ===== ICON WRAPPER ===== */
+.game-icon-wrapper {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-icon {
+  color: #d4af37;
+  transition: all 0.4s ease;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+}
+
+.game-card:hover .game-icon {
+  transform: rotateZ(10deg) scale(1.15);
+  filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.6));
+}
+
+.game-pulse {
+  position: absolute;
+  inset: -10px;
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  border-radius: 50%;
+  animation: cosmic-pulse-ring 2s ease-out infinite;
+}
+
+/* ===== TITLE ===== */
+.game-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #d4af37, #f0e68c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  text-transform: uppercase;
+  transition: all 0.4s ease;
+}
+
+.game-card:hover .game-title {
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+  transform: scale(1.1);
+}
+
+/* ===== SUBTITLE ===== */
+.game-subtitle {
+  font-size: 0.9rem;
+  color: rgba(240, 230, 140, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  transition: all 0.4s ease;
+}
+
+.game-card:hover .game-subtitle {
+  color: #f0e68c;
+}
+
+/* ===== STARS ===== */
+.game-stars {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  animation: cosmic-twinkle 2s ease-in-out infinite;
+}
+
+.star {
+  display: inline-block;
+  transition: all 0.3s ease;
+  animation: cosmic-float 1.5s ease-in-out infinite;
+}
+
+.star:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.star:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.game-card:hover .star {
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
+}
+
+/* ===== ACTION BUTTON ===== */
+.game-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #d4af37, #f0e68c);
+  color: #000c2a;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.game-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+}
+
+.game-action-btn:active {
+  transform: translateY(0);
+}
+
+.game-action-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ===== DECORATIVE ELEMENTS ===== */
+.game-decoration {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+}
+
+.meteor-1 {
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, #d4af37, transparent);
+  top: -30px;
+  right: -30px;
+  animation: cosmic-float-slow 8s ease-in-out infinite;
+}
+
+.meteor-2 {
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, #4face, transparent);
+  bottom: -50px;
+  left: -50px;
+  animation: cosmic-float-slow 10s ease-in-out infinite reverse;
+}
+
+.game-card:hover .game-decoration {
+  opacity: 0.2;
+}
+
+/* ===== PARTICLE ORBIT ===== */
+.particle-orbit {
+  position: absolute;
+  inset: -80px;
+  pointer-events: none;
+}
+
+.orbital-particle {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  animation: cosmic-orbit 8s linear infinite;
+  --delay: 0s;
+  animation-delay: var(--delay);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.game-card:hover ~ .particle-orbit .orbital-particle {
+  opacity: 0.7;
+}
+
+.orbital-particle:nth-child(1) {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.orbital-particle:nth-child(2) {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.orbital-particle:nth-child(3) {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.orbital-particle:nth-child(4) {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.orbital-particle:nth-child(5) {
+  top: 15%;
+  right: 15%;
+}
+
+.orbital-particle:nth-child(6) {
+  bottom: 15%;
+  left: 15%;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes cosmic-glow-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes cosmic-pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes cosmic-twinkle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes cosmic-float {
+  0%, 100% {
+    transform: translateY(0) translateZ(0);
+  }
+  50% {
+    transform: translateY(-8px) translateZ(0);
+  }
+}
+
+@keyframes cosmic-float-slow {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, -20px);
+  }
+}
+
+@keyframes cosmic-orbit {
+  0% {
+    transform: rotate(0deg) translateX(80px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(80px) rotate(-360deg);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .game-card-inner {
+    gap: 1rem;
+    border-radius: 16px;
+  }
+
+  .game-icon-wrapper {
+    width: 64px;
+    height: 64px;
+  }
+
+  .game-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .game-title {
+    font-size: 1.5rem;
+    letter-spacing: 1.5px;
+  }
+
+  .game-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .particle-orbit {
+    inset: -60px;
+  }
+
+  .game-card:hover {
+    transform: scale(1.03) translateZ(10px);
+  }
+}
+
+@media (max-width: 480px) {
+  .particle-orbit {
+    display: none;
+  }
+
+  .game-title {
+    font-size: 1.25rem;
+  }
+
+  .game-action-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.75rem;
+  }
+}
