@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { GameCard } from "@/components/home/GameCard";
+// import { GameCard } from "@/components/home/GameCard"; // Hidden for now - to be reactivated in future
 import { GroomingWizard } from "@/components/home/GroomingWizard";
 import "@/styles/home-layout.css";
 
@@ -57,10 +57,10 @@ const Index = () => {
 
       {/* 3. MAIN CONTENT SECTION - Three columns layout */}
       <section className="main-content-section">
-        {/* LEFT COLUMN - Game Card */}
-        <div className="content-column left-column">
+        {/* LEFT COLUMN - Game Card (hidden for now) */}
+        {/* <div className="content-column left-column">
           <GameCard />
-        </div>
+        </div> */}
 
         {/* CENTER COLUMN - Arsenal (Categorías) */}
         <div className="content-column center-column">
