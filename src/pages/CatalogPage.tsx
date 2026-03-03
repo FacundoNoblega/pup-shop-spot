@@ -1,6 +1,8 @@
 import { useState, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useProducts, getMinPrice, getTotalStock } from "@/hooks/useProducts";
+import { useCart } from "@/contexts/CartContext";
+import { toast } from "sonner";
 import type { Product } from "@/types/product";
 
 const WHATSAPP_NUMBER = "5493834701332";
@@ -29,7 +31,9 @@ const NAV_LINKS = [
 const CatalogPage = () => {
   const location = useLocation();
   const { data: products, isLoading, error } = useProducts();
+  const { addItem } = useCart();
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedVariation, setSelectedVariation] = useState<Record<string, number>>({});
 
   const categoryName = CATEGORY_MAP[location.pathname] || "Alimentos";
   const config = CATEGORY_CONFIG[location.pathname] || CATEGORY_CONFIG["/alimentos"];
@@ -52,6 +56,38 @@ const CatalogPage = () => {
   const buildWhatsAppLink = (product: Product) => {
     const msg = encodeURIComponent(`Hola, quiero consultar por el producto: ${product.nombre}`);
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+  };
+
+  const handleAddToCart = (product: Product) => {
+    if (!product.variaciones || product.variaciones.length === 0) {
+      toast.error("Este producto no tiene variaciones disponibles");
+      return;
+    }
+
+    const selectedVarIndex = selectedVariation[product.id] ?? 0;
+    const variation = product.variaciones[selectedVarIndex];
+
+    if (!variation) {
+      toast.error("Por favor selecciona una variación");
+      return;
+    }
+
+    if (variation.stock === 0) {
+      toast.error("Producto sin stock");
+      return;
+    }
+
+    addItem({
+      id: `${product.id}-${variation.key}`,
+      name: `${product.nombre} - ${variation.value}`,
+      price: variation.precio,
+      quantity: 1,
+      image: product.imagen_url || "/img/default.png",
+      category: product.categoria,
+      stock: variation.stock,
+    });
+
+    toast.success(`Agregado al carrito: ${product.nombre}`);
   };
 
   return (
@@ -94,6 +130,9 @@ const CatalogPage = () => {
               const totalStock = getTotalStock(prod.variaciones);
               const outOfStock = totalStock === 0;
 
+              const selectedVarIndex = selectedVariation[prod.id] ?? 0;
+              const selectedVar = prod.variaciones?.[selectedVarIndex];
+
               return (
                 <div key={prod.id} className="product-card">
                   <img
@@ -112,6 +151,55 @@ const CatalogPage = () => {
                   ) : (
                     <div className="price">Consultar</div>
                   )}
+                  {selectedVar && (
+                    <div style={{ fontSize: "12px", color: "#888", marginTop: "4px" }}>
+                      Stock: {selectedVar.stock}
+                    </div>
+                  )}
+                  {prod.variaciones && prod.variaciones.length > 1 && (
+                    <select
+                      value={selectedVarIndex}
+                      onChange={(e) =>
+                        setSelectedVariation({
+                          ...selectedVariation,
+                          [prod.id]: parseInt(e.target.value),
+                        })
+                      }
+                      style={{
+                        width: "100%",
+                        padding: "6px",
+                        marginTop: "8px",
+                        marginBottom: "8px",
+                        borderRadius: "4px",
+                        border: "1px solid #ccc",
+                        fontSize: "12px",
+                      }}
+                    >
+                      {prod.variaciones.map((v, i) => (
+                        <option key={i} value={i}>
+                          {v.value}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  <button
+                    onClick={() => handleAddToCart(prod)}
+                    disabled={!selectedVar || selectedVar.stock === 0}
+                    style={{
+                      width: "100%",
+                      padding: "8px",
+                      marginBottom: "8px",
+                      backgroundColor: !selectedVar || selectedVar.stock === 0 ? "#ccc" : "#007bff",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: !selectedVar || selectedVar.stock === 0 ? "not-allowed" : "pointer",
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Agregar al carrito
+                  </button>
                   <a
                     href={buildWhatsAppLink(prod)}
                     target="_blank"
