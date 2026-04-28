@@ -57,10 +57,8 @@ const Index = () => {
 
       {/* 3. MAIN CONTENT SECTION - Three columns layout */}
       <section className="main-content-section">
-        {/* LEFT COLUMN - Game Card (hidden for now) */}
-        {/* <div className="content-column left-column">
-          <GameCard />
-        </div> */}
+        {/* LEFT COLUMN - Game Card (hidden for now, placeholder preserves grid balance) */}
+        <div className="content-column left-column"></div>
 
         {/* CENTER COLUMN - Arsenal (Categorías) */}
         <div className="content-column center-column">
