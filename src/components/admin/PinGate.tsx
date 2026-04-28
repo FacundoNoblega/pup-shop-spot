@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dog, Lock, Loader2 } from "lucide-react";
+import { Dog, Lock, Loader as Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 interface Props {
@@ -33,7 +33,8 @@ export function PinGate({ onSuccess }: Props) {
         setPin("");
       }
     } catch (err) {
-      toast({ title: "Error de conexión", variant: "destructive" });
+      const message = err instanceof Error ? err.message : "No se pudo conectar con el servidor";
+      toast({ title: "Error de conexión", description: message, variant: "destructive" });
     } finally {
       setLoading(false);
     }
